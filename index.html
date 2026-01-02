@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>System Hacked!</title>
+
+<style>
+
+body{
+background:black;
+color:#00ff00;
+font-family: monospace;
+text-align:center;
+padding-top:50px;
+}
+
+h1{
+color:red;
+animation: blink 1s infinite;
+}
+
+@keyframes blink{
+50%{opacity:0;}
+}
+
+#box{
+width:80%;
+margin:auto;
+border:2px solid #00ff00;
+padding:20px;
+text-align:left;
+}
+
+.progress{
+width:80%;
+height:25px;
+border:2px solid white;
+margin-top:20px;
+}
+
+#bar{
+height:100%;
+width:0%;
+background:red;
+transition:0.2s;
+}
+
+#final{
+display:none;
+color:yellow;
+font-size:25px;
+margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>⚠️ WARNING ⚠️</h1>
+<h2>Your Device is Being Hacked...</h2>
+
+<div id="box"></div>
+
+<div class="progress">
+<div id="bar"></div>
+</div>
+
+<h2 id="final">😂 JUST A PRANK! YOUR DEVICE IS SAFE 🎉</h2>
+
+<script>
+
+let text = [
+"Connecting to device...",
+"Injecting virus...",
+"Stealing passwords...",
+"Accessing gallery...",
+"Uploading data to server...",
+"Bypassing security...",
+"Almost done..."
+];
+
+let box = document.getElementById("box");
+let bar = document.getElementById("bar");
+let final = document.getElementById("final");
+let i = 0;
+let percent = 0;
+
+let fake = setInterval(()=>{
+if(i < text.length){
+ box.innerHTML += text[i] + "<br>";
+ i++;
+}
+
+percent += 5;
+bar.style.width = percent + "%";
+
+if(percent >= 100){
+ clearInterval(fake);
+ document.body.style.background = "purple";
+ final.style.display = "block";
+}
+
+},500);
+
+</script>
+
+</body>
+</html>
