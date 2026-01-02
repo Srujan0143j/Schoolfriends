@@ -1,27 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>System Hacked!</title>
+<title>System Breach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-
 body{
+margin:0;
 background:black;
 color:#00ff00;
 font-family: monospace;
 text-align:center;
-padding-top:50px;
 overflow:hidden;
 }
 
-h1{
-color:red;
-animation: blink 0.8s infinite;
-font-size:40px;
+/* ------------ ANDROID HEADER -------------- */
+.topbar{
+background:#111;
+color:white;
+padding:10px;
+text-align:left;
+font-family:Arial;
+display:flex;
+justify-content:space-between;
 }
 
-@keyframes blink{
-50%{opacity:0;}
+/* ------------ HACK SCREEN -------------- */
+#hackscreen{
+padding-top:40px;
+}
+
+.android-title{
+color:white;
+font-family:Arial;
+font-size:18px;
+background:#202020;
+padding:10px;
+border-radius:8px;
+display:inline-block;
+margin-bottom:10px;
+}
+
+.countdown{
+font-size:25px;
+color:red;
+font-weight:bold;
 }
 
 #box{
@@ -30,11 +53,298 @@ margin:auto;
 border:2px solid #00ff00;
 padding:20px;
 text-align:left;
-height:200px;
-overflow:auto;
+min-height:150px;
 }
 
 .progress{
+width:80%;
+height:25px;
+border:2px solid white;
+margin-top:20px;
+margin-left:auto;
+margin-right:auto;
+}
+
+#bar{
+height:100%;
+width:0%;
+background:red;
+transition:0.2s;
+}
+
+/* ---------- BLUE SCREEN ---------- */
+#blue{
+display:none;
+background:#0000aa;
+color:white;
+height:100vh;
+width:100vw;
+padding:40px;
+font-size:18px;
+text-align:left;
+}
+
+/* ---------- DATA WIPE ---------- */
+#wipe{
+display:none;
+background:black;
+color:red;
+height:100vh;
+width:100vw;
+padding-top:80px;
+}
+
+.wipebar{
+width:80%;
+margin:auto;
+border:2px solid red;
+height:25px;
+}
+
+#wipebarfill{
+height:100%;
+width:0%;
+background:red;
+}
+
+/* ---------- PHONE LOCK ---------- */
+#lock{
+display:none;
+background:black;
+color:white;
+height:100vh;
+width:100vw;
+text-align:center;
+padding-top:60px;
+}
+
+.lock-box{
+border:2px solid red;
+width:80%;
+margin:auto;
+padding:30px;
+}
+
+.fingerprint{
+margin-top:30px;
+height:120px;
+width:120px;
+border-radius:50%;
+border:3px dashed cyan;
+display:flex;
+align-items:center;
+justify-content:center;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+50%{opacity:.4;}
+}
+
+/* ---------- FINAL ---------- */
+#final{
+display:none;
+background:purple;
+color:yellow;
+height:100vh;
+width:100vw;
+padding-top:150px;
+font-size:30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ANDROID STATUS BAR -->
+<div class="topbar">
+<span>Android System</span>
+<span>🔔</span>
+</div>
+
+<!-- HACK SCREEN -->
+<div id="hackscreen">
+<div class="android-title">⚠ Security Warning</div>
+
+<h2>Your Device is Being Hacked...</h2>
+
+<p class="countdown">Data wipe in <span id="timer">30</span> seconds</p>
+
+<div id="box"></div>
+
+<div class="progress">
+<div id="bar"></div>
+</div>
+</div>
+
+
+<!-- BLUE SCREEN -->
+<div id="blue">
+<h1>:(</h1>
+<h2>Your device encountered a critical security breach</h2>
+<p>Collecting error info... <span id="bluePercent">0</span>%</p>
+<p>Do not turn off your device</p>
+</div>
+
+
+<!-- WIPE SCREEN -->
+<div id="wipe">
+<h2>⚠ DATA WIPE IN PROGRESS</h2>
+<p>Encrypting Files...</p>
+<div class="wipebar">
+<div id="wipebarfill"></div>
+</div>
+<p id="wipeText"></p>
+</div>
+
+
+<!-- LOCK SCREEN -->
+<div id="lock">
+<h2>🔒 PHONE LOCKED</h2>
+<div class="lock-box">
+<p>Suspicious activity detected</p>
+<p>Fingerprint verification required</p>
+
+<div class="fingerprint" onclick="unlock()">
+<span>Touch</span>
+</div>
+
+<p style="margin-top:20px;color:red;">Attempts left: 1</p>
+</div>
+</div>
+
+
+<!-- FINAL -->
+<div id="final">
+😂 RELAX! THIS WAS JUST A PRANK! YOUR DEVICE IS SAFE 🎉
+<p style="font-size:20px;">Share it with your friends 😈</p>
+</div>
+
+
+<script>
+
+/* ---------- SOUND ---------- */
+var alertSound = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
+
+/* ---------- VIBRATION ---------- */
+function vibrate(pattern){
+ if("vibrate" in navigator){
+   navigator.vibrate(pattern);
+ }
+}
+
+/* ---------- TIMER ---------- */
+let timer = 30;
+let t = setInterval(()=>{
+document.getElementById("timer").innerHTML = timer;
+vibrate([300]);
+alertSound.play();
+
+timer--;
+if(timer<=0){
+clearInterval(t);
+}
+},1000);
+
+
+/* ---------- HACK SIMULATION ---------- */
+let text = [
+"Connecting to device...",
+"Injecting virus...",
+"Stealing passwords...",
+"Accessing camera...",
+"Tracking live location...",
+"Scanning gallery...",
+"Uploading contacts...",
+"Encrypting storage...",
+"Almost done..."
+];
+
+let box = document.getElementById("box");
+let bar = document.getElementById("bar");
+let i = 0;
+let percent = 0;
+
+let fake = setInterval(()=>{
+
+vibrate([300,150,300,150,500]);  
+
+if(i < text.length){
+ box.innerHTML += text[i] + "<br>";
+ i++;
+}
+
+percent += 7;
+bar.style.width = percent + "%";
+
+if(percent >= 100){
+ clearInterval(fake);
+ blueScreen();
+}
+
+},600);
+
+
+/* ---------- BLUE SCREEN ---------- */
+function blueScreen(){
+document.getElementById("hackscreen").style.display="none";
+document.getElementById("blue").style.display="block";
+
+let p = 0;
+let bp = setInterval(()=>{
+p+=5;
+document.getElementById("bluePercent").innerHTML=p;
+vibrate([400,200,400]);
+
+if(p>=100){
+ clearInterval(bp);
+ wipeScreen();
+}
+},400);
+}
+
+
+/* ---------- WIPE SCREEN ---------- */
+function wipeScreen(){
+document.getElementById("blue").style.display="none";
+document.getElementById("wipe").style.display="block";
+
+let w = 0;
+let wipe = setInterval(()=>{
+w+=4;
+document.getElementById("wipebarfill").style.width = w+"%";
+document.getElementById("wipeText").innerHTML = "Deleting system files: " + w + "%";
+vibrate([500,300,500]);
+
+if(w>=100){
+clearInterval(wipe);
+lockScreen();
+}
+},400);
+}
+
+
+/* ---------- LOCK SCREEN ---------- */
+function lockScreen(){
+document.getElementById("wipe").style.display="none";
+document.getElementById("lock").style.display="block";
+vibrate([700,300,700,300,1000]);
+}
+
+
+/* ---------- FINGERPRINT ---------- */
+function unlock(){
+vibrate([1000,300,1000]);
+alertSound.pause();
+document.getElementById("lock").style.display="none";
+document.getElementById("final").style.display="block";
+}
+
+</script>
+
+</body>
+</html>.progress{
 width:80%;
 height:25px;
 border:2px solid white;
