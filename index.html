@@ -14,11 +14,6 @@ text-align:center;
 overflow:hidden;
 }
 
-/* Disable selecting / touching */
-*{
-user-select:none;
-}
-
 .topbar{
 background:#111;
 color:white;
@@ -35,6 +30,266 @@ font-family:Arial;
 .title{
 color:white;
 font-family:Arial;
+font-size:18px;
+background:#202020;
+padding:10px;
+border-radius:8px;
+display:inline-block;
+margin-bottom:10px;
+}
+
+.countdown{
+font-size:25px;
+color:red;
+font-weight:bold;
+}
+
+#box{
+width:80%;
+margin:auto;
+border:2px solid #00ff00;
+padding:20px;
+text-align:left;
+min-height:150px;
+}
+
+.progress{
+width:80%;
+height:25px;
+border:2px solid white;
+margin:20px auto;
+}
+#bar{
+height:100%;
+width:0%;
+background:red;
+}
+
+#wa{
+background:#0b141a;
+color:white;
+height:100vh;
+padding-top:20px;
+font-family:Arial;
+}
+.chat{
+background:#1f2c34;
+width:90%;
+margin:auto;
+border-radius:10px;
+padding:10px;
+text-align:left;
+}
+.msg{
+background:#005c4b;
+padding:10px;
+margin:8px;
+width:70%;
+border-radius:10px;
+}
+
+#sim{
+background:black;
+color:red;
+height:100vh;
+padding-top:100px;
+font-family:Arial;
+}
+
+#lock{
+background:black;
+color:white;
+height:100vh;
+padding-top:80px;
+}
+
+.box{
+border:2px solid red;
+width:80%;
+margin:auto;
+padding:30px;
+}
+.finger{
+margin-top:25px;
+height:120px;
+width:120px;
+border-radius:50%;
+border:3px dashed cyan;
+display:flex;
+justify-content:center;
+align-items:center;
+animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+50%{opacity:.3;}
+}
+
+#final{
+background:purple;
+color:yellow;
+height:100vh;
+padding-top:140px;
+font-size:30px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+<span>Android System</span>
+<span>🔔</span>
+</div>
+
+<!-- HACK SCREEN -->
+<div id="hack" class="screen">
+<div class="title">⚠ Security Warning</div>
+<h2>Your Device is Being Hacked...</h2>
+<p class="countdown">Data wipe in <span id="timer">30</span>s</p>
+
+<div id="box"></div>
+<div class="progress"><div id="bar"></div></div>
+</div>
+
+<!-- WHATSAPP -->
+<div id="wa" class="screen">
+<h2>WhatsApp</h2>
+<div class="chat" id="chat"></div>
+</div>
+
+<!-- SIM -->
+<div id="sim" class="screen">
+<h1>🚫 SIM CARD BLOCKED</h1>
+<p>Suspicious activity detected</p>
+<p>Your SIM will be permanently disabled</p>
+</div>
+
+<!-- LOCK -->
+<div id="lock" class="screen">
+<h2>🔒 PHONE LOCKED</h2>
+<div class="box">
+<p>Fingerprint Verification Required</p>
+<div class="finger" onclick="finish()">Touch</div>
+</div>
+</div>
+
+<!-- FINAL -->
+<div id="final" class="screen">
+😂 JUST A PRANK! YOUR DEVICE IS SAFE 🎉
+</div>
+
+<script>
+let alarm = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
+alarm.loop = true;
+
+function vibrate(p){ if("vibrate" in navigator) navigator.vibrate(p); }
+
+/******** START IMMEDIATELY ********/
+window.onload = ()=>{
+document.getElementById("hack").style.display="block";
+try{ alarm.play(); }catch(e){}
+vibrate([500,200,500]);
+startHack();
+};
+
+/******** COUNTDOWN ********/
+let t=30;
+let timer=setInterval(()=>{
+document.getElementById("timer").innerHTML=t;
+vibrate([200]);
+t--;
+if(t<=0) clearInterval(timer);
+},1000);
+
+/******** HACK PROCESS ********/
+let text=[
+"Connecting to device...",
+"Injecting malware...",
+"Accessing camera...",
+"Reading SIM data...",
+"Opening WhatsApp...",
+"Uploading contacts...",
+"Encrypting Storage...",
+"SIM Deactivation Started...",
+"Almost Done..."
+];
+
+let i=0,percent=0;
+
+function startHack(){
+let box=document.getElementById("box");
+let bar=document.getElementById("bar");
+
+let run=setInterval(()=>{
+if(i<text.length){
+box.innerHTML+=text[i]+"<br>";
+i++;
+}
+percent+=8;
+bar.style.width=percent+"%";
+vibrate([300,200]);
+if(percent>=100){
+clearInterval(run);
+whatsappPhase();
+}
+},600);
+}
+
+/******** WHATSAPP ********/
+function whatsappPhase(){
+document.getElementById("hack").style.display="none";
+document.getElementById("wa").style.display="block";
+
+let msgs=[
+"Downloading chats...",
+"Reading messages...",
+"Forwarding chats to police...",
+"Reporting suspicious activity...",
+"SIM Card flagged..."
+];
+
+let c=0;
+let chat=document.getElementById("chat");
+
+let w=setInterval(()=>{
+let div=document.createElement("div");
+div.className="msg";
+div.innerText=msgs[c];
+chat.appendChild(div);
+vibrate([400,300,400]);
+c++;
+if(c>=msgs.length){
+clearInterval(w);
+simBlock();
+}
+},900);
+}
+
+/******** SIM ********/
+function simBlock(){
+document.getElementById("wa").style.display="none";
+document.getElementById("sim").style.display="block";
+vibrate([800,200,800]);
+setTimeout(()=>{lockScreen();},3000);
+}
+
+/******** LOCK ********/
+function lockScreen(){
+document.getElementById("sim").style.display="none";
+document.getElementById("lock").style.display="block";
+}
+
+/******** FINISH ********/
+function finish(){
+vibrate([1200,400,1200]);
+alarm.pause();
+document.getElementById("lock").style.display="none";
+document.getElementById("final").style.display="block";
+}
+</script>
+
+</body>
+</html>font-family:Arial;
 font-size:18px;
 background:#202020;
 padding:10px;
