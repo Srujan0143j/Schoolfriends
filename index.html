@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Android Security Breach</title>
+<title>System Breach</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{
 background:black;
-color:#00ffa2;
+color:#00ff84;
 font-family: monospace;
 margin:0;
 overflow:hidden;
@@ -26,14 +27,23 @@ border-bottom:2px solid #00ff84;
 padding:20px;
 }
 
-.line{font-size:18px;margin-bottom:6px;}
+.line{
+font-size:18px;
+margin-bottom:5px;
+}
 
 .progress{
-width:100%;height:20px;
+width:100%;
+height:20px;
 border:2px solid #00ff84;
 margin-top:15px;
 }
-#bar{height:100%;width:0%;background:red;}
+
+#bar{
+height:100%;
+width:0%;
+background:red;
+}
 
 .final{
 display:none;
@@ -42,18 +52,10 @@ margin-top:30px;
 font-size:24px;
 color:yellow;
 }
-
-#unlock{
-position:fixed;
-inset:0;
-z-index:999;
-}
 </style>
 </head>
 
 <body>
-
-<div id="unlock"></div>
 
 <div class="header">
 ANDROID SECURITY SYSTEM • EMERGENCY MODE
@@ -66,91 +68,72 @@ ANDROID SECURITY SYSTEM • EMERGENCY MODE
 </div>
 
 <h2 class="final" id="final">
-DEVICE SUCCESSFULLY HACKED <br>
+ DEVICE ACCESSED SUCCESSFULLY <br>
 </h2>
 
 <script>
 
+// 🔥 Text Messages
 let text = [
-"[BOOT] Secure Kernel Loaded",
-"[SYS] Initializing Security Scan...",
-"[CORE] Establishing privileged shell access",
-"[ACCESS] Root permissions granted",
-"[SCAN] Checking system integrity...",
-"[SCAN] Analyzing installed applications...",
-"[SCAN] Detecting suspicious foreground services...",
-"[NETWORK] Intercepting network packets...",
-"[NETWORK] Mapping device IP & MAC...",
-"[SECURITY] Bypassing Google Play Protect...",
-"[SECURITY] Verifying certificate signatures...",
-"[DATA] Reading encrypted credential store...",
-"[DATA] Accessing internal storage directories...",
-"[DATA] Extracting message database...",
-"[MEDIA] Scanning gallery cache files...",
-"[MEDIA] Indexing deleted files...",
-"[SIM] Reading SIM authentication key...",
-"[SIM] Carrier security lock engaged...",
-"[SYSTEM] Injecting monitoring daemon...",
-"[SYSTEM] Modifying runtime security policies...",
-"[PROCESS] Terminating protected applications...",
-"[PROCESS] Clearing active sessions...",
-"[FINAL] Encryption task executing...",
-"[FINAL] System breach successful…"
+"Initializing security engine...",
+"Scanning system files...",
+"Accessing secure storage...",
+"Intercepting running apps...",
+"Extracting data...",
+"Bypassing Android protection...",
+"Finalizing process..."
 ];
 
-let box=document.getElementById("box");
-let bar=document.getElementById("bar");
-let final=document.getElementById("final");
+let box = document.getElementById("box");
+let bar = document.getElementById("bar");
+let final = document.getElementById("final");
+let i = 0;
+let percent = 0;
 
-let i=0,percent=0;
-let allowSound=false;
-
+// 🔥 Sound Setup
 let beep = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-system-beep-buzzer-fail-2964.mp3");
-let reveal = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.wav");
+let revealSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-cartoon-positive-sound-2255.mp3");
 
-beep.volume=0.7;
-reveal.volume=1;
-
-document.getElementById("unlock").addEventListener("pointerdown", ()=>{
- allowSound=true;
- beep.play().catch(()=>{});
- if(navigator.vibrate){
-     navigator.vibrate([200,100,200]);
- }
- document.getElementById("unlock").style.display="none";
+// Auto play attempt (may get blocked in some browsers)
+document.addEventListener("DOMContentLoaded", ()=>{
+    beep.volume = 0.5;
+    revealSound.volume = 1;
 });
 
-let hack=setInterval(()=>{
+// 🔥 Auto Start Process
+let run = setInterval(()=>{
 
- if(i<text.length){
-  box.innerHTML+=`<div class='line'>${text[i]}</div>`;
-  if(allowSound){
-    beep.currentTime=0;
-    beep.play().catch(()=>{});
-  }
-  if(navigator.vibrate){
-    navigator.vibrate(80);
-  }
-  i++;
+if(i < text.length){
+ box.innerHTML += `<div class='line'>${text[i]}</div>`;
+ beep.currentTime = 0;
+ beep.play().catch(()=>{});
+ i++;
+}
+
+// Progress bar
+percent += 10;
+bar.style.width = percent + "%";
+
+// Light vibration during process
+if(navigator.vibrate){
+    navigator.vibrate(120);
+}
+
+// Finish
+if(percent >= 100){
+ clearInterval(run);
+ document.body.style.background = "#30003a";
+ final.style.display = "block";
+
+ // Strong vibration at reveal
+ if(navigator.vibrate){
+  navigator.vibrate([400,200,400,200,400]);
  }
 
- percent+=5;
- bar.style.width=percent+"%";
+ revealSound.play().catch(()=>{});
+}
 
- if(percent>=100){
-  clearInterval(hack);
-  document.body.style.background="#3a003d";
-  final.style.display="block";
-
-  if(navigator.vibrate){
-   navigator.vibrate([400,200,500,200,600]);
-  }
-
-  if(allowSound){
-    reveal.play().catch(()=>{});
-  }
- }
-},250);
+},300);
 
 </script>
 
